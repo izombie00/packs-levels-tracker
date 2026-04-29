@@ -53,31 +53,62 @@ body {
   margin-top: 5px;
   color: #555;
 }
+
+  /* Difficulty tags */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+/* Difficulty colours */
+.easy { background: #34a853; }      /* green */
+.medium { background: #fbbc05; }    /* yellow/orange */
+.hard { background: #ea4335; }      /* red */
+.insane { background: #8b0000; }    /* dark red */
+.extreme { background: #a142f4; }   /* purple */
 </style>
 </head>
-
+}
+  
 <body>
 
 <!-- BEGINNER PACK -->
 <div class="pack">
-  <h3>Beginner Demon Pack</h3>
+  <h3><span class="tag easy">EASY</span> Beginner Demon Pack</h3>
 
   <div class="level">
-    <label><input type="checkbox" data-id="nightmare-check"> The Nightmare</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  The Nightmare
+</label>
     <span>
       <input type="number" class="percent-input" data-id="nightmare" min="0" max="100" value="0">%
     </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="lightning-check"> The Lightning Road</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  THE LIGHTNING ROAD
+</label>
     <span>
       <input type="number" class="percent-input" data-id="lightning" min="0" max="100" value="0">%
     </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="platinum-check"> Platinum Adventure</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  Platinum Adventure
+</label>
     <span>
       <input type="number" class="percent-input" data-id="platinum" min="0" max="100" value="0">%
     </span>
@@ -93,31 +124,46 @@ body {
 
 <!-- NINE CIRCLES PACK -->
 <div class="pack">
-  <h3>Nine Circles Pack</h3>
+  <h3><span class="tag hard">HARD</span> Nine Circles Pack</h3>
 
   <div class="level">
-    <label><input type="checkbox" data-id="ninecircles-check"> Nine Circles</label>
-    <span>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag hard">HARD</span>
+  Nine Circles
+</label>    <span>
       <input type="number" class="percent-input" data-id="ninecircles" min="0" max="100" value="0">%
     </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="problematic-check"> Problematic</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  Problematic
+</label>
     <span>
       <input type="number" class="percent-input" data-id="problematic" min="0" max="100" value="0">%
     </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="infinitecircles-check"> Infinite Circles</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  Infinite Circles
+</label>
     <span>
       <input type="number" class="percent-input" data-id="infinitecircles" min="0" max="100" value="0">%
     </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="ultraparacosm-check"> Ultra Paracosm</label>
+    <label>
+  <input type="checkbox" data-id="nightmare-check">
+  <span class="tag easy">EASY</span>
+  Ultra Paracosm
+</label>
     <span>
       <input type="number" class="percent-input" data-id="ultraparacosm" min="0" max="100" value="0">%
     </span>
