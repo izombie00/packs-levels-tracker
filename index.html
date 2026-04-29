@@ -8,22 +8,12 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
-  background: #f8f9fa;
+  padding: 10px;
 }
 
 /* Pack container */
 .pack {
-  background: white;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* Title */
-.pack h3 {
-  margin-top: 0;
+  padding: 10px 5px;
 }
 
 /* Level rows */
@@ -35,11 +25,17 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+/* Input box */
+.percent-input {
+  width: 50px;
+  font-size: 13px;
+}
+
 /* Progress bar */
 .progress-bar {
   height: 6px;
   background: #eee;
-  margin-top: 12px;
+  margin-top: 10px;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -53,7 +49,7 @@ body {
 /* Small text */
 .progress-text {
   font-size: 13px;
-  margin-top: 6px;
+  margin-top: 5px;
   color: #555;
 }
 </style>
@@ -66,18 +62,24 @@ body {
   <h3>Beginner Demon Pack</h3>
 
   <div class="level">
-    <label><input type="checkbox" data-id="nightmare"> The Nightmare</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="nightmare-check"> The Nightmare</label>
+    <span>
+      <input type="number" class="percent-input" data-id="nightmare" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="lightning"> The Lightning Road</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="lightning-check"> The Lightning Road</label>
+    <span>
+      <input type="number" class="percent-input" data-id="lightning" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="platinum"> Platinum Adventure</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="platinum-check"> Platinum Adventure</label>
+    <span>
+      <input type="number" class="percent-input" data-id="platinum" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="progress-bar">
@@ -93,23 +95,31 @@ body {
   <h3>Nine Circles Pack</h3>
 
   <div class="level">
-    <label><input type="checkbox" data-id="ninecircles"> Nine Circles</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="ninecircles-check"> Nine Circles</label>
+    <span>
+      <input type="number" class="percent-input" data-id="ninecircles" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="problematic"> Problematic</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="problematic-check"> Problematic</label>
+    <span>
+      <input type="number" class="percent-input" data-id="problematic" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="infinitecircles"> Infinite Circles</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="infinitecircles-check"> Infinite Circles</label>
+    <span>
+      <input type="number" class="percent-input" data-id="infinitecircles" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="level">
-    <label><input type="checkbox" data-id="ultraparacosm"> Ultra Paracosm</label>
-    <span class="percent">0%</span>
+    <label><input type="checkbox" data-id="ultraparacosm-check"> Ultra Paracosm</label>
+    <span>
+      <input type="number" class="percent-input" data-id="ultraparacosm" min="0" max="100" value="0">%
+    </span>
   </div>
 
   <div class="progress-bar">
@@ -125,8 +135,28 @@ const packs = document.querySelectorAll(".pack");
 
 packs.forEach(pack => {
   const checkboxes = pack.querySelectorAll("input[type='checkbox']");
+  const inputs = pack.querySelectorAll(".percent-input");
   const progressFill = pack.querySelector(".progress-fill");
   const progressText = pack.querySelector(".progress-text");
+
+  // Load saved data
+  inputs.forEach(input => {
+    const saved = localStorage.getItem(input.dataset.id);
+    if (saved !== null) input.value = saved;
+
+    input.addEventListener("input", () => {
+      let val = Math.max(0, Math.min(100, input.value));
+      input.value = val;
+
+      localStorage.setItem(input.dataset.id, val);
+
+      const checkbox = input.closest(".level").querySelector("input[type='checkbox']");
+      checkbox.checked = (val == 100);
+      localStorage.setItem(checkbox.dataset.id, checkbox.checked);
+
+      updatePack();
+    });
+  });
 
   checkboxes.forEach(cb => {
     const saved = localStorage.getItem(cb.dataset.id);
@@ -134,30 +164,30 @@ packs.forEach(pack => {
 
     cb.addEventListener("change", () => {
       localStorage.setItem(cb.dataset.id, cb.checked);
+
+      const input = cb.closest(".level").querySelector(".percent-input");
+      if (cb.checked) {
+        input.value = 100;
+        localStorage.setItem(input.dataset.id, 100);
+      }
+
       updatePack();
     });
   });
 
   function updatePack() {
-    let total = checkboxes.length;
-    let completed = 0;
+    let total = inputs.length;
+    let sum = 0;
 
-    checkboxes.forEach(cb => {
-      const percentLabel = cb.closest(".level").querySelector(".percent");
-
-      if (cb.checked) {
-        percentLabel.textContent = "100%";
-        completed++;
-      } else {
-        percentLabel.textContent = "0%";
-      }
+    inputs.forEach(input => {
+      sum += Number(input.value);
     });
 
-    const percent = (completed / total) * 100;
+    const percent = sum / total;
 
     progressFill.style.width = percent + "%";
     progressText.textContent =
-      `Progress: ${completed}/${total} (${Math.round(percent)}%)`;
+      `Average Progress: ${Math.round(percent)}%`;
   }
 
   updatePack();
