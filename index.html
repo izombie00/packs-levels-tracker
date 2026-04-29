@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Demonlist Tracker</title>
+
+<style>
+body { font-family: Arial; }
+
+.pack {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #eee;
+  margin-top: 5px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4caf50;
+  width: 0%;
+}
+
+.level {
+  margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div id="packs">
+
+  <!-- PACK 1 -->
+  <div class="pack" data-pack="pack1">
+    <h3>Beginner Demon Pack</h3>
+
+    <div class="level">
+      <label><input type="checkbox" data-id="p1_l1"> Level 1</label>
+      %: <input type="number" min="0" max="100" data-percent="p1_l1">
+    </div>
+
+    <div class="level">
+      <label><input type="checkbox" data-id="p1_l2"> Level 2</label>
+      %: <input type="number" min="0" max="100" data-percent="p1_l2">
+    </div>
+
+    <div class="level">
+      <label><input type="checkbox" data-id="p1_l3"> Level 3</label>
+      %: <input type="number" min="0" max="100" data-percent="p1_l3">
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+
+    <div class="progress-text"></div>
+  </div>
+
+</div>
+
+<script>
+const packsContainer = document.getElementById("packs");
+
+function loadData() {
+  document.querySelectorAll("input").forEach(input => {
+    const key = input.dataset.id || input.dataset.percent;
+    const saved = localStorage.getItem(key);
+
+    if (input.type === "checkbox") {
+      input.checked = saved === "true";
+    } else {
+      input.value = saved || "";
+    }
+
+    input.addEventListener("change", () => {
+      if (input.type === "checkbox") {
+        localStorage.setItem(key, input.checked);
+      } else {
+        localStorage.setItem(key, input.value);
+      }
+      updateAll();
+    });
+  });
+}
+
+function updateAll() {
+  document.querySelectorAll(".pack").forEach(pack => {
+    const checkboxes = pack.querySelectorAll('input[type="checkbox"]');
+    const percents = pack.querySelectorAll('input[type="number"]');
+
+    let total = checkboxes.length;
+    let completed = [...checkboxes].filter(cb => cb.checked).length;
+
+    let percentSum = 0;
+    percents.forEach(p => {
+      percentSum += Number(p.value) || 0;
+    });
+
+    let avgPercent = percentSum / percents.length || 0;
+
+    const fill = pack.querySelector(".progress-fill");
+    const text = pack.querySelector(".progress-text");
+
+    fill.style.width = avgPercent + "%";
+    text.textContent = `Completed: ${completed}/${total} | Avg Progress: ${Math.round(avgPercent)}%`;
+
+    // Mark pack status
+    pack.dataset.status = completed === 0 ? "not-started"
+                        : completed === total ? "complete"
+                        : "in-progress";
+  });
+
+  sortPacks();
+}
+
+function sortPacks() {
+  const packs = [...document.querySelectorAll(".pack")];
+
+  packs.sort((a, b) => {
+    const order = {
+      "in-progress": 0,
+      "not-started": 1,
+      "complete": 2
+    };
+    return order[a.dataset.status] - order[b.dataset.status];
+  });
+
+  packs.forEach(p => packsContainer.appendChild(p));
+}
+
+loadData();
+updateAll();
+</script>
+
+</body>
+</html>
