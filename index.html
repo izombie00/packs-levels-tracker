@@ -66,11 +66,11 @@ body {
 }
 
 /* Difficulty colours */
-.easy { background: #34a853; }      /* green */
-.medium { background: #fbbc05; }    /* yellow/orange */
+.easy { background: #947dd8; }      /* lightpurple */
+.medium { background: #eea1c7; }    /* magenta/white */
 .hard { background: #ea4335; }      /* red */
-.insane { background: #8b0000; }    /* dark red */
-.extreme { background: #a142f4; }   /* purple */
+.insane { background: #cc0000; }    /* dark red */
+.extreme { background: #980000; }   /* very dark red */
 </style>
 </head>
 
@@ -322,6 +322,48 @@ body {
 </label>
     <span>
       <input type="number" class="percent-input" data-id="deadlocked" min="0" max="100" value="0">%
+    </span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill"></div>
+  </div>
+
+  <div class="progress-text"></div>
+</div>
+
+<!-- RGB TRILOGY 1 -->
+<div class="pack">
+  <h3><span class="tag insane">INSANE</span> RGB Trilogy 1</h3>
+
+  <div class="level">
+    <label>
+  <input type="checkbox" data-id="ninecircles-check">
+  <span class="tag hard">HARD</span>
+  Nine Circles
+</label>    <span>
+      <input type="number" class="percent-input" data-id="ninecircles" min="0" max="100" value="0">%
+    </span>
+  </div>
+
+    <div class="level">
+    <label>
+  <input type="checkbox" data-id="jawbreaker-check">
+  <span class="tag hard">HARD</span>
+  Jawbreaker
+</label>    <span>
+      <input type="number" class="percent-input" data-id="jawbreaker" min="0" max="100" value="0">%
+    </span>
+  </div>
+
+  <div class="level">
+    <label>
+  <input type="checkbox" data-id="foresttemple-check">
+  <span class="tag easy">EASY</span>
+  Forest Temple
+</label>
+    <span>
+      <input type="number" class="percent-input" data-id="foresttemple" min="0" max="100" value="0">%
     </span>
   </div>
 
